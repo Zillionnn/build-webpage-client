@@ -4,12 +4,17 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+// Vue.use(ElementUI)
+/* eslint-disable no-new */
+import VButton from './components/common/VButton.vue'
+import HeadBar from './components/common/HeadBar.vue'
 
 // import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 Vue.config.productionTip = false
-// Vue.use(ElementUI)
-/* eslint-disable no-new */
+
+Vue.component('v-button', VButton)
+Vue.component('head-bar', HeadBar)
 new Vue({
   el: '#app',
   router,
