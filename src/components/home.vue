@@ -14,32 +14,7 @@ export default {
   components: {},
   data () {
     return {
-      webJson: [
-        {
-          type: 'head-bar'
-        },
-        {
-          type: 'v-button',
-          name: '点击',
-          property: {
-            style: {
-              color: 'red',
-              fontSize: '14px',
-              padding: '10px',
-              width: '100px',
-              position: 'absolute',
-              left: '40px',
-              top: '130px'
-            },
-            on: {
-              click: () => {
-                alert('click')
-              }
-            }
 
-          }
-        }
-      ]
     }
   },
 
