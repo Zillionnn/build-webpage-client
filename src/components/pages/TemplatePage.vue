@@ -7,42 +7,19 @@
 
 <script>
 import Vue from 'vue'
+import {$http} from '@/service/requestService.js'
 
 export default {
   name: 'TemplatePage',
   components: {},
   data () {
     return {
-      webJson: [
-        {
-          type: 'head-bar'
-        },
-        {
-          type: 'v-button',
-          name: '点击',
-          property: {
-            style: {
-              color: 'red',
-              fontSize: '14px',
-              padding: '10px',
-              width: '100px',
-              position: 'absolute',
-              left: '40px',
-              top: '130px'
-            },
-            on: {
-              click: () => {
-                alert('click')
-              }
-            }
-
-          }
-        }
-      ]
+      webJson: []
     }
   },
 
   created () {
+    this.getWebJson()
     console.log('###########TEMPLATE PAGE################')
     Vue.component('v-render', {
       render: createElement => {
@@ -65,6 +42,18 @@ export default {
         console.log('render', 'mou')
       }
     })
+  },
+
+  methods: {
+    getWebJson () {
+      $http.get('http://127.0.0.1:3000/api/v1/webjson')
+        .then(res => {
+          this.webJson = res.data.data
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    }
   }
 }
 </script>

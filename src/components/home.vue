@@ -44,25 +44,35 @@ export default {
   },
 
   created () {
-    $http.get('http://127.0.0.1:3000/api/v1/routers')
-      .then((res) => {
-        let children = []
-        children = res.data.data.map(e => {
-          return {
-            path: e.path,
-            name: e.name,
-            component: () => import(`@/components/pages/TemplatePage.vue`)
-          }
-        })
+    this.initData()
+  },
 
-        return children
-      })
-      .then(r => {
-        sessionStorage.setItem('routes', JSON.stringify(r))
-        console.log(r)
-        this.$router.addRoutes(r)
-        console.log(this.$router)
-      })
+  methods: {
+    initData () {
+      this.getRoutes()
+    },
+    getRoutes () {
+      $http.get('http://127.0.0.1:3000/api/v1/routers')
+        .then((res) => {
+          let children = []
+          children = res.data.data.map(e => {
+            return {
+              path: e.path,
+              name: e.name,
+              component: () => import(`@/components/pages/TemplatePage.vue`)
+            }
+          })
+
+          return children
+        })
+        .then(r => {
+          sessionStorage.setItem('routes', JSON.stringify(r))
+          console.log(r)
+          this.$router.addRoutes(r)
+          console.log(this.$router)
+        })
+    }
+
   }
 }
 </script>
