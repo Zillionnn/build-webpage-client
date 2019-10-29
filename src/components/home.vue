@@ -27,7 +27,7 @@ export default {
       this.getRoutes()
     },
     getRoutes () {
-      $http.get('http://127.0.0.1:3000/api/v1/routers')
+      $http.get('http://127.0.0.1:7000/api/v1/routers')
         .then((res) => {
           let children = []
           children = res.data.data.map(e => {
