@@ -46,7 +46,9 @@ export default {
                 ...e.info.style,
                 ...e,
                 top: e.y + 'px',
-                left: e.x + 'px'
+                left: e.x + 'px',
+                width: e.width + 'px',
+                height: e.height + 'px'
               }
             },
             e.info.content)
