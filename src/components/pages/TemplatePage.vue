@@ -7,28 +7,49 @@
 
 <script>
 import Vue from 'vue'
-import {$http} from '@/service/requestService.js'
+import * as api from '@/api'
+// import env from '@/config/env'
 
 export default {
   name: 'TemplatePage',
   components: {},
   data () {
     return {
-      webJson: []
+      page: {
+        appId: '',
+        name: '',
+        components: []
+      }
     }
   },
 
   created () {
-    this.getWebJson()
+    this.selectedPage()
     console.log('###########TEMPLATE PAGE################')
     Vue.component('v-render', {
       render: createElement => {
         console.log('componentInfo')
-        console.log(this.webJson)
+        console.log(this.page)
         return createElement(
           'div',
-          this.webJson.map(function (e) {
-            return createElement(e.type, {...e.property}, e.name)
+          {
+            style: {
+              position: 'relative',
+              width: '100%',
+              height: '100%'
+            }
+          },
+          this.page.components.map(function (e) {
+            return createElement(e.info.tagName, {
+              ...e.info,
+              style: {
+                ...e.info.style,
+                ...e,
+                top: e.y + 'px',
+                left: e.x + 'px'
+              }
+            },
+            e.info.content)
           })
         )
       },
@@ -45,18 +66,39 @@ export default {
   },
 
   methods: {
-    getWebJson () {
-      $http.get('http://127.0.0.1:3000/api/v1/webjson')
+    getPages () {
+      api.base
+        .appPageList(this.appId)
         .then(res => {
-          this.webJson = res.data.data
+          this.pageList = res.data.data.map(e => {
+            return {
+              ...e,
+              edit: false
+            }
+          })
         })
         .catch(err => {
           console.error(err)
         })
+    },
+
+    selectedPage (page) {
+      // this.activePage = page.page_id
+      api.base.pageDetail('11').then(res => {
+        this.page = res.data.data
+        this.page.components = this.page.components.map(e => {
+          return JSON.parse(e)
+        })
+      })
     }
   }
 }
 </script>
 
 <style scoped>
+.page{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
 </style>
