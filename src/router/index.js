@@ -8,6 +8,11 @@ let routers = [
     path: '/',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: Home
   }
 ]
 
@@ -16,19 +21,22 @@ const router = new Router({
 })
 let flag = 0
 router.beforeEach((to, from, next) => {
-  console.log('to>>', to, from)
+  // console.log('to>>', to, from)
   if (to.path !== '/') {
     if (flag === 0) {
       let routes = sessionStorage.getItem('routes')
-      console.log(routes)
+      console.log('router/index.js', routes)
 
       if (routes) {
         let r = JSON.parse(sessionStorage.getItem('routes'))
         let children = []
         children = r.map(e => {
           return {
-            path: e.path,
+            path: '/page/' + e.link,
             name: e.name,
+            meta: {
+              page_id: e.link
+            },
             component: () => import(`@/components/pages/TemplatePage.vue`)
           }
         })

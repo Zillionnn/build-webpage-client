@@ -1,6 +1,5 @@
 <template>
   <div class="page">
-    {{this.$route.name}}
     <v-render></v-render>
   </div>
 </template>
@@ -22,7 +21,12 @@ export default {
       }
     }
   },
-
+  watch: {
+    '$route' (val, old) {
+      console.log(val)
+      this.selectedPage()
+    }
+  },
   created () {
     console.log('###########TEMPLATE PAGE################')
     this.selectedPage()

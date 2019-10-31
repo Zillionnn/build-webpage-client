@@ -1,12 +1,13 @@
 <template>
   <div class="page">
-    <div v-if="menuList.length>0">
+    home
+    <!-- <div v-if="menuList.length>0">
       <div v-for="(menu,index) in menuList" :key="index" >
         <router-link :to="`/page/${menu.link}`">{{menu.name}}</router-link>
       </div>
     </div>
 
-    <router-view></router-view>
+    <router-view></router-view> -->
   </div>
 </template>
 
@@ -25,7 +26,8 @@ export default {
   },
 
   created () {
-    this.initData()
+    console.log('==========HOME==========')
+    // this.initData()
   },
 
   methods: {
