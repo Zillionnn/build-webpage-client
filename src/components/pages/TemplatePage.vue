@@ -24,8 +24,9 @@ export default {
   },
 
   created () {
-    this.selectedPage()
     console.log('###########TEMPLATE PAGE################')
+    this.selectedPage()
+
     Vue.component('v-render', {
       render: createElement => {
         console.log('componentInfo')
@@ -86,7 +87,8 @@ export default {
 
     selectedPage (page) {
       // this.activePage = page.page_id
-      api.base.pageDetail('11').then(res => {
+      console.log(this.$route)
+      api.base.pageDetail(this.$route.meta.page_id).then(res => {
         this.page = res.data.data
         this.page.components = this.page.components.map(e => {
           return JSON.parse(e)
