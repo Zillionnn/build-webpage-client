@@ -45,18 +45,38 @@ export default {
             }
           },
           this.page.components.map(function (e) {
-            return createElement(e.info.tagName, {
-              ...e.info,
-              style: {
-                ...e.info.style,
-                ...e,
-                top: e.y + 'px',
-                left: e.x + 'px',
-                width: e.width + 'px',
-                height: e.height + 'px'
-              }
-            },
-            e.info.content)
+            if (e.info.hasOwnProperty('options')) {
+              return createElement(e.info.tagName, {
+                attrs: {
+                  options: {...e.info.options},
+                  ...e.info.attrs
+                },
+                style: {
+                  ...e.info.style,
+                  ...e,
+                  top: e.y + 'px',
+                  left: e.x + 'px',
+                  width: e.width + 'px',
+                  height: e.height + 'px'
+                }
+              },
+              e.info.content)
+            } else {
+              return createElement(e.info.tagName, {
+                attrs: {
+                  ...e.info.attrs
+                },
+                style: {
+                  ...e.info.style,
+                  ...e,
+                  top: e.y + 'px',
+                  left: e.x + 'px',
+                  width: e.width + 'px',
+                  height: e.height + 'px'
+                }
+              },
+              e.info.content)
+            }
           })
         )
       },
