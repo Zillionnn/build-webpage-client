@@ -46,11 +46,15 @@ export default {
             }
           },
           this.page.components.map(function (e) {
-            if (e.info.hasOwnProperty('options')) {
+            if (e.info.hasOwnProperty('props')) {
               return createElement(e.info.tagName, {
                 attrs: {
-                  options: {...e.info.options},
+
                   ...e.info.attrs
+                },
+                props: {
+                  // 为了echart 的属性
+                  options: e.info.props.options
                 },
                 style: {
                   ...e.info.style,
