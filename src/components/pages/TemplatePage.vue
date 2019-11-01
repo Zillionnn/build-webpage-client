@@ -96,7 +96,7 @@ export default {
   methods: {
     returnChild (info) {
       console.log(info)
-      if (info.hasOwnProperty('dataSource')) {
+      if (info.hasOwnProperty('dataSource') && info.dataSource) {
         return info.dataSource.data
       } else {
         console.log(info)
@@ -139,7 +139,7 @@ export default {
       for (let i = 0; i < components.length; i++) {
         const e = components[i]
         const jsonObj = JSON.parse(e)
-        if (jsonObj.info.dataSource !== undefined || jsonObj.info.dataSource) {
+        if (jsonObj.info.dataSource !== undefined && jsonObj.info.dataSource) {
           const method = jsonObj.info.dataSource.method
           const url = jsonObj.info.dataSource.url
 
