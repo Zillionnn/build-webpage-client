@@ -8,6 +8,7 @@
 import Vue from 'vue'
 import * as api from '@/api'
 // import env from '@/config/env'
+import {$http} from '@/service/requestService.js'
 
 export default {
   name: 'TemplatePage',
@@ -30,7 +31,7 @@ export default {
   created () {
     console.log('###########TEMPLATE PAGE################')
     this.selectedPage()
-
+    const _self = this
     Vue.component('v-render', {
       render: createElement => {
         console.log('componentInfo')
@@ -75,7 +76,7 @@ export default {
                   height: e.height + 'px'
                 }
               },
-              e.info.content)
+              _self.returnChild(e.info))
             }
           })
         )
@@ -93,6 +94,16 @@ export default {
   },
 
   methods: {
+    returnChild (info) {
+      console.log(info)
+      if (info.hasOwnProperty('dataSource')) {
+        return info.dataSource.data
+      } else {
+        console.log(info)
+        return info.content
+      }
+    },
+
     getPages () {
       api.base
         .appPageList(this.appId)
@@ -109,15 +120,47 @@ export default {
         })
     },
 
-    selectedPage (page) {
-      // this.activePage = page.page_id
-      console.log(this.$route)
-      api.base.pageDetail(this.$route.meta.page_id).then(res => {
-        this.page = res.data.data
-        this.page.components = this.page.components.map(e => {
-          return JSON.parse(e)
-        })
-      })
+    // selectedPage (page) {
+    //   // this.activePage = page.page_id
+    //   console.log(this.$route)
+    //   api.base.pageDetail(this.$route.meta.page_id).then(res => {
+    //     this.page = res.data.data
+    //     this.page.components = this.page.components.map(e => {
+    //       return JSON.parse(e)
+    //     })
+    //   })
+    // },
+    async selectedPage (page) {
+      const res = await api.base.pageDetail(this.$route.meta.page_id)
+
+      this.page = res.data.data
+      const components = [...this.page.components]
+      this.page.components = []
+      for (let i = 0; i < components.length; i++) {
+        const e = components[i]
+        const jsonObj = JSON.parse(e)
+        if (jsonObj.info.dataSource !== undefined || jsonObj.info.dataSource) {
+          const method = jsonObj.info.dataSource.method
+          const url = jsonObj.info.dataSource.url
+
+          const r = await $http[method](url)
+          jsonObj.info.dataSource.data = r.data
+          console.log(jsonObj)
+
+          this.page.components.push(jsonObj)
+        } else {
+          this.page.components.push(JSON.parse(e))
+        }
+      }
+      // this.page.components = this.page.components.map(e => {
+      //   const jsonObj = JSON.parse(e)
+
+      // })
+      // for (let i = 0; i < this.page.components.length; i++) {
+      //   const e = this.page.components[i]
+      // }
+
+      console.log(this.page.components)
     }
   }
 }
