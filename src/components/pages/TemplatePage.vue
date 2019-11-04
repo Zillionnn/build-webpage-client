@@ -149,7 +149,7 @@ export default {
 
           const r = await $http[method](url)
           jsonObj.info.dataSource.data = r.data
-          console.log(jsonObj)
+          this.generateData(jsonObj, r)
 
           this.page.components.push(jsonObj)
         } else {
@@ -165,6 +165,58 @@ export default {
       // }
 
       console.log(this.page.components)
+    },
+
+    async generateData (component, dataSource) {
+      console.log('generateData>>>>>>', component, dataSource)
+      if (component.type.indexOf('pie') > -1) {
+        component.info.props.options.series = []
+
+        let serie = {
+          name: '',
+          type: 'pie',
+          radius: '55%',
+          center: ['50%', '60%'],
+          data: dataSource.data.data
+        }
+        component.info.props.options.series.push(serie)
+        console.log('SUB DATA SOURCE PIE', component.info.props.options)
+      } else if (component.type.indexOf('chart') > -1) {
+        let type = ''
+        if (component.type.indexOf('bar') > -1) {
+          type = 'bar'
+        } else {
+          type = 'line'
+        }
+        component.info.props.options.xAxis.data = dataSource.data.map(
+          e => {
+            return e[0]
+          }
+        )
+        const seriesNameList = component.info.props.options.series.map(e => {
+          return e.name
+        })
+        component.info.props.options.series = []
+        const item = dataSource.data[0]
+        console.log(item)
+        for (let i = 1; i < item.length; i++) {
+          const data = dataSource.data.map(e => {
+            return e[i]
+          })
+          let serie = {
+            name: seriesNameList[i - 1],
+            type: type,
+            barWidth: '30%',
+            barGap: '0%',
+            smooth: true,
+            data: data
+          }
+          component.info.props.options.series.push(serie)
+        }
+        console.log(component.info.props.options)
+      }
+
+      console.log(this.page)
     }
   }
 }
