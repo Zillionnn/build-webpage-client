@@ -62,7 +62,8 @@ export default {
                   top: e.y + 'px',
                   left: e.x + 'px',
                   width: e.width + 'px',
-                  height: e.height + 'px'
+                  height: e.height + 'px',
+                  transform: `rotate(${e.rotate}deg)`
                 }
               },
               e.info.content)
@@ -77,7 +78,8 @@ export default {
                   top: e.y + 'px',
                   left: e.x + 'px',
                   width: e.width + 'px',
-                  height: e.height + 'px'
+                  height: e.height + 'px',
+                  transform: `rotate(${e.rotate}deg)`
                 }
               },
               _self.returnChild(e.info))
