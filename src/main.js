@@ -8,6 +8,7 @@ import store from './store'
 /* eslint-disable no-new */
 import VButton from './components/common/VButton.vue'
 import HeadBar from './components/common/HeadBar.vue'
+import VTable from './components/common/VTable.vue'
 
 // import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
@@ -23,12 +24,19 @@ import 'echarts/lib/component/dataZoom.js'
 import 'echarts/lib/component/markLine.js'
 import 'echarts/lib/component/grid.js'
 import ECharts from 'vue-echarts'
-Vue.component('v-echart', ECharts)
 
 Vue.config.productionTip = false
 
+// ######################################################################
+// ######################################################################
+// ##############################全局组件#################################
+// ######################################################################
+// ######################################################################
+Vue.component('v-echart', ECharts)
 Vue.component('v-button', VButton)
 Vue.component('head-bar', HeadBar)
+Vue.component('v-table', VTable)
+
 new Vue({
   el: '#app',
   router,

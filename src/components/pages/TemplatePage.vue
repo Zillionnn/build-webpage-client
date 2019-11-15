@@ -72,6 +72,7 @@ export default {
                 attrs: {
                   ...e.info.attrs
                 },
+                props: e.info.props ? e.info.props : {},
                 style: {
                   ...e.info.style,
                   ...e,
