@@ -51,14 +51,16 @@ export default {
     return {
       pagination: {
         currentPage: 1,
-        total: 0,
+        total: this.data.total,
         pageSize: 10
       }
     }
   },
   methods: {
     // TODO 翻页
-    handleCurrentChange () {}
+    handleCurrentChange (p) {
+      this.$emit('changePage', p)
+    }
   }
 }
 </script>

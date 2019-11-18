@@ -46,10 +46,9 @@ export default {
             }
           },
           this.page.components.map(function (e) {
-            if (e.info.hasOwnProperty('props')) {
+            if (e.info.tagName === 'v-echart') {
               return createElement(e.info.tagName, {
                 attrs: {
-
                   ...e.info.attrs
                 },
                 props: {
@@ -81,6 +80,13 @@ export default {
                   width: e.width + 'px',
                   height: e.height + 'px',
                   transform: `rotate(${e.rotate}deg)`
+                },
+                on: {
+                  changePage: (p) => {
+                    _self.doEvent(e, p)
+                  },
+                  // TODO
+                  click: () => {}
                 }
               },
               _self.returnChild(e.info))
@@ -220,7 +226,27 @@ export default {
       }
 
       console.log(this.page)
+    },
+
+    // TODO 执行event
+    doEvent (component, p) {
+      // 翻页
+      console.log(component)
+      if (component.eventList[0].eventType === 1) {
+        this.resetData(component, p)
+      }
+    },
+
+    /**
+     * 组件事件重新render data
+     */
+    resetData (currentBox, p) {
+      const method = currentBox.info.dataSource.method
+      const url = currentBox.info.dataSource.url + `?offset=${p * 10}&limit=${10}`
+      const r = $http[method](url)
+      currentBox.info.dataSource.data = r.data
     }
+    // ######################### methods#################
   }
 }
 </script>
