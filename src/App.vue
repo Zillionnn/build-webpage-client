@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div v-if="showTopMenu" class="header">
+    <div v-if="showTopMenu" class="header" :style="`background: ${appDetail.menuConfig.top.backgroundColor};`">
       <div class="logo" :src="logoUrl"></div>
     </div>
     <!-- <div v-if="menuList.length>0">
@@ -8,8 +8,8 @@
         <router-link :to="`/page/${menu.link}`">{{menu.name}}</router-link>
       </div>
     </div> -->
-    <div v-if="showLeftMenu" :style="`top: ${leftMenuToTop}px`" class="side-menu">
-      <el-menu  :router="true" :background-color="'#2c3e50'" :text-color="'#ffffff'">
+    <div v-if="showLeftMenu" :style="`top: ${leftMenuToTop}px;background-color:${appDetail.menuConfig.left.backgroundColor}`" class="side-menu">
+      <el-menu  :router="true" :background-color="appDetail.menuConfig.left.backgroundColor" :text-color="'#ffffff'">
         <el-menu-item
           v-for="(menu, index) in menuList"
           :route="`/page/${menu.link}`"
@@ -149,7 +149,6 @@ body {
 }
 .header {
   height: 50px;
-  background: #2c3e50;
   position: fixed;
   top: 0;
   left: 0;
