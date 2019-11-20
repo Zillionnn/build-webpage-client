@@ -1,21 +1,37 @@
 <template>
   <div id="app">
-    <div v-if="showTopMenu" class="header" :style="`background: ${appDetail.menuConfig.top.backgroundColor};`">
-      <div class="logo" :src="logoUrl"></div>
+    <div
+      v-if="showTopMenu"
+      class="header"
+      :style="`background: ${appDetail.menuConfig.top.backgroundColor};`"
+    >
+      <div class="logo">
+        <img :src="appDetail.menuConfig.top.logo"/>
+      </div>
     </div>
     <!-- <div v-if="menuList.length>0">
       <div v-for="(menu,index) in menuList" :key="index">
         <router-link :to="`/page/${menu.link}`">{{menu.name}}</router-link>
       </div>
-    </div> -->
-    <div v-if="showLeftMenu" :style="`top: ${leftMenuToTop}px;background-color:${appDetail.menuConfig.left.backgroundColor}`" class="side-menu">
-      <el-menu  :router="true" :background-color="appDetail.menuConfig.left.backgroundColor" :text-color="'#ffffff'">
+    </div>-->
+    <div
+      v-if="showLeftMenu"
+      :style="`top: ${leftMenuToTop}px;background-color:${appDetail.menuConfig.left.backgroundColor}`"
+      class="side-menu"
+    >
+      <el-menu
+        :router="true"
+        :default-active="0"
+        :background-color="appDetail.menuConfig.left.backgroundColor"
+        :text-color="appDetail.menuConfig.left.menu.textColor"
+        :active-text-color="appDetail.menuConfig.left.menu.textActiveColor"
+      >
         <el-menu-item
           v-for="(menu, index) in menuList"
           :route="`/page/${menu.link}`"
           :index="index"
           :key="index"
-         >
+        >
           <span slot="title">{{menu.name}}</span>
         </el-menu-item>
       </el-menu>
@@ -118,17 +134,16 @@ export default {
      * app 详情
      */
     getAppDetail () {
-      api.base.appDetail(this.appId)
-        .then(res => {
-          this.appDetail = res.data.data
-          const layout = this.appDetail.layout
-          if (layout.indexOf('left') > -1) {
-            this.showLeftMenu = true
-          }
-          if (layout.indexOf('top') > -1) {
-            this.showTopMenu = true
-          }
-        })
+      api.base.appDetail(this.appId).then(res => {
+        this.appDetail = res.data.data
+        const layout = this.appDetail.layout
+        if (layout.indexOf('left') > -1) {
+          this.showLeftMenu = true
+        }
+        if (layout.indexOf('top') > -1) {
+          this.showTopMenu = true
+        }
+      })
     }
   }
 }
@@ -166,5 +181,9 @@ body {
 .logo {
   width: 100px;
   height: 50px;
+}
+.logo img {
+  width: 100%;
+  height: 100%;
 }
 </style>
