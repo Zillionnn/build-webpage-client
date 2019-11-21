@@ -8,6 +8,7 @@
       <div class="logo">
         <img :src="appDetail.menuConfig.top.logo"/>
       </div>
+      <span style="margin-left: 10px;color:#ffffff;">{{appDetail.menuConfig.top.appName}}</span>
     </div>
     <!-- <div v-if="menuList.length>0">
       <div v-for="(menu,index) in menuList" :key="index">
@@ -169,6 +170,9 @@ body {
   left: 0;
   right: 0;
   z-index: 999;
+  display: flex;
+  justify-content: flex-start;
+  align-items:center;
 }
 .side-menu {
   width: 200px;
