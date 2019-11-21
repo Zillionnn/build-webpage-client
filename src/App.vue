@@ -8,7 +8,7 @@
       <div class="logo">
         <img :src="appDetail.menuConfig.top.logo"/>
       </div>
-      <span style="margin-left: 10px;color:#ffffff;">{{appDetail.menuConfig.top.appName}}</span>
+      <span :style="`color:${appDetail.menuConfig.top.appNameColor};margin-left:10px;`">{{appDetail.menuConfig.top.appName}}</span>
     </div>
     <!-- <div v-if="menuList.length>0">
       <div v-for="(menu,index) in menuList" :key="index">
