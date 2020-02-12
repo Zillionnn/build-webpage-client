@@ -1,10 +1,43 @@
 <template>
   <div id="app">
-    <div v-if="menuList.length>0">
+    <div
+      v-if="showTopMenu"
+      class="header"
+      :style="`background: ${appDetail.menuConfig.top.backgroundColor};`"
+    >
+      <div class="logo">
+        <img :src="appDetail.menuConfig.top.logo"/>
+      </div>
+      <span :style="`color:${appDetail.menuConfig.top.appNameColor};margin-left:10px;`">{{appDetail.menuConfig.top.appName}}</span>
+    </div>
+    <!-- <div v-if="menuList.length>0">
       <div v-for="(menu,index) in menuList" :key="index">
         <router-link :to="`/page/${menu.link}`">{{menu.name}}</router-link>
       </div>
+    </div>-->
+    <div
+      v-if="showLeftMenu"
+      :style="`top: ${leftMenuToTop}px;background-color:${appDetail.menuConfig.left.backgroundColor}`"
+      class="side-menu"
+    >
+      <el-menu
+        :router="true"
+        :default-active="0"
+        :background-color="appDetail.menuConfig.left.backgroundColor"
+        :text-color="appDetail.menuConfig.left.menu.textColor"
+        :active-text-color="appDetail.menuConfig.left.menu.textActiveColor"
+      >
+        <el-menu-item
+          v-for="(menu, index) in menuList"
+          :route="`/page/${menu.link}`"
+          :index="index"
+          :key="index"
+        >
+          <span slot="title">{{menu.name}}</span>
+        </el-menu-item>
+      </el-menu>
     </div>
+
     <router-view />
   </div>
 </template>
@@ -19,7 +52,16 @@ export default {
   data () {
     return {
       menuList: [],
-      appId: 1
+      appId: 1,
+      logoUrl: '',
+      appDetail: null,
+      showTopMenu: false,
+      showLeftMenu: false
+    }
+  },
+  computed: {
+    leftMenuToTop () {
+      return this.showTopMenu ? 50 : 0
     }
   },
   created () {
@@ -28,6 +70,7 @@ export default {
 
   methods: {
     initData () {
+      this.getAppDetail()
       this.getAppMenu()
     },
     /**
@@ -86,6 +129,22 @@ export default {
           this.$router.addRoutes(r)
           console.log(this.$router)
         })
+    },
+
+    /**
+     * app 详情
+     */
+    getAppDetail () {
+      api.base.appDetail(this.appId).then(res => {
+        this.appDetail = res.data.data
+        const layout = this.appDetail.layout
+        if (layout.indexOf('left') > -1) {
+          this.showLeftMenu = true
+        }
+        if (layout.indexOf('top') > -1) {
+          this.showTopMenu = true
+        }
+      })
     }
   }
 }
@@ -97,6 +156,38 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 60px;
+  padding: 0;
+  position: relative;
+  height: 100vh;
+}
+body {
+  margin: 0;
+}
+.header {
+  height: 50px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: flex-start;
+  align-items:center;
+}
+.side-menu {
+  width: 200px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+  background: #2c3e50;
+}
+.logo {
+  width: 100px;
+  height: 50px;
+}
+.logo img {
+  width: 100%;
+  height: 100%;
 }
 </style>

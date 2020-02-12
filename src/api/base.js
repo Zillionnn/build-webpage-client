@@ -18,6 +18,14 @@ export default{
     return $http.delete(url + `/api/app/${id}`)
   },
 
+  /**
+   * app detail
+   * @param {*} id
+   */
+  appDetail (id) {
+    return $http.get(url + `/api/app/${id}`)
+  },
+
   // ############################ MENU ###############################
   addAppMenu ({appId, name}) {
     return $http.post(url + `/api/app/menu/add`, {
