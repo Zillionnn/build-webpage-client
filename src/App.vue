@@ -52,7 +52,8 @@ export default {
   data () {
     return {
       menuList: [],
-      appId: 1,
+      // app id
+      appId: 11,
       logoUrl: '',
       appDetail: null,
       showTopMenu: false,
@@ -110,7 +111,7 @@ export default {
     },
     getRoutes () {
       $http
-        .get('http://127.0.0.1:7000/api/v1/routers')
+        .get('http://106.12.40.54:7000/api/v1/routers')
         .then(res => {
           let children = []
           children = res.data.data.map(e => {
