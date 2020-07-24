@@ -52,7 +52,7 @@ export default {
   data () {
     return {
       menuList: [],
-      appId: 1,
+      appId: 11,
       logoUrl: '',
       appDetail: null,
       showTopMenu: false,
