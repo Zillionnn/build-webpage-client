@@ -52,6 +52,7 @@ export default {
   data () {
     return {
       menuList: [],
+      // app id
       appId: 11,
       logoUrl: '',
       appDetail: null,
