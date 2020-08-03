@@ -147,6 +147,7 @@ export default {
     //     })
     //   })
     // },
+    // 选中一个页面
     async selectedPage (page) {
       const res = await api.base.pageDetail(this.$route.meta.page_id)
 
@@ -156,12 +157,16 @@ export default {
       for (let i = 0; i < components.length; i++) {
         const e = components[i]
         const jsonObj = JSON.parse(e)
+        // 有数据源
         if (jsonObj.info.dataSource !== undefined && jsonObj.info.dataSource) {
+          // 接口method get post delete put
           const method = jsonObj.info.dataSource.method
+          // 接口url
           const url = jsonObj.info.dataSource.url
 
           const r = await $http[method](url)
           jsonObj.info.dataSource.data = r.data
+          // 生成数据
           this.generateData(jsonObj, r)
 
           this.page.components.push(jsonObj)
@@ -182,6 +187,7 @@ export default {
 
     async generateData (component, dataSource) {
       console.log('generateData>>>>>>', component, dataSource)
+      // 饼图的数据
       if (component.type.indexOf('pie') > -1) {
         component.info.props.options.series = []
 
@@ -196,11 +202,13 @@ export default {
         console.log('SUB DATA SOURCE PIE', component.info.props.options)
       } else if (component.type.indexOf('chart') > -1) {
         let type = ''
+        // 柱状图 
         if (component.type.indexOf('bar') > -1) {
           type = 'bar'
         } else {
           type = 'line'
         }
+        // 以下配置echart option
         component.info.props.options.xAxis.data = dataSource.data.map(
           e => {
             return e[0]
