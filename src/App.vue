@@ -44,7 +44,7 @@
 
 <script>
 import * as api from '@/api'
-import { $http } from '@/service/requestService.js'
+// import { $http } from '@/service/requestService.js'
 
 export default {
   name: 'App',
@@ -72,6 +72,7 @@ export default {
   methods: {
     initData () {
       this.getAppDetail()
+      // 获取菜单 和路由
       this.getAppMenu()
     },
     /**
@@ -103,32 +104,11 @@ export default {
           console.log(r)
           this.$router.addRoutes(r)
           console.log(this.$router)
+          // 前往第一个页面
           this.$router.push({ path: r[0].path })
         })
         .catch(err => {
           console.error(err)
-        })
-    },
-    getRoutes () {
-      $http
-        .get('http://127.0.0.1:7000/api/v1/routers')
-        .then(res => {
-          let children = []
-          children = res.data.data.map(e => {
-            return {
-              path: e.path,
-              name: e.name,
-              component: () => import(`@/components/pages/TemplatePage.vue`)
-            }
-          })
-
-          return children
-        })
-        .then(r => {
-          sessionStorage.setItem('routes', JSON.stringify(r))
-          console.log(r)
-          this.$router.addRoutes(r)
-          console.log(this.$router)
         })
     },
 

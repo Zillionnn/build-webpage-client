@@ -45,6 +45,7 @@ export default {
               height: '100%'
             }
           },
+          // 按照tag Name 生成组件
           this.page.components.map(function (e) {
             if (e.info.tagName === 'v-echart') {
               return createElement(e.info.tagName, {
@@ -71,7 +72,9 @@ export default {
                 attrs: {
                   ...e.info.attrs
                 },
+                // 组件的props
                 props: e.info.props ? e.info.props : {},
+                // 样式
                 style: {
                   ...e.info.style,
                   ...e,
@@ -81,6 +84,7 @@ export default {
                   height: e.height + 'px',
                   transform: `rotate(${e.rotate}deg)`
                 },
+                // event
                 on: {
                   changePage: (p) => {
                     _self.doEvent(e, p)

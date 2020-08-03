@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/home.vue'
 Vue.use(Router)
 
+// 用不到
 let routers = [
   {
     path: '/',
